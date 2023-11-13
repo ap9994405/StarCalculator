@@ -49,9 +49,10 @@ subroutine read_input(input_fname,pah)
         end do
       end if
     end do
-    if (.not. unsorted_geometry) call sort(geom,cnat)
+    allocate(pah%initiallabel(cnat))
+    call sort(geom,cnat,pah%initiallabel)
   end if ! is_adjacency_file
-
+  
 ! ######################################
 ! # verify the maximal number of atoms #
 ! ######################################
@@ -68,7 +69,6 @@ subroutine read_input(input_fname,pah)
 ! ######################
   pah%nat=cnat
   pah%order=0
-  allocate(pah%initiallabel(pah%nat))
   allocate(pah%neighbornumber(pah%nat))
   allocate(pah%neighborlist(3,pah%nat))
   pah%neighbornumber=0
@@ -102,33 +102,36 @@ subroutine read_input(input_fname,pah)
 ! #######################
 ! # find neighbor table #
 ! #######################
-      do i=1,cnat
-        pah%initiallabel(i)=i
-        do j=i+1,cnat
-          if (dist(cnat,i,j,geom) < ccdist) then
-            pah%neighbornumber(i)=pah%neighbornumber(i)+1
-            pah%neighborlist(pah%neighbornumber(i),i)=j
-            pah%neighbornumber(j)=pah%neighbornumber(j)+1
-            pah%neighborlist(pah%neighbornumber(j),j)=i
-          end if
-        end do
+    do i=1,cnat
+      ! pah%initiallabel(i)=i
+      do j=i+1,cnat
+        if (dist(cnat,i,j,geom) < ccdist) then
+          pah%neighbornumber(i)=pah%neighbornumber(i)+1
+          pah%neighborlist(pah%neighbornumber(i),i)=j
+          pah%neighbornumber(j)=pah%neighbornumber(j)+1
+          pah%neighborlist(pah%neighbornumber(j),j)=i
+        end if
       end do
-    else
-        nConnection = 0
-        read (20, *) nConnection
-        do i=1, nConnection
-            read (20,*) con1, con2
-            if (dist(cnat,con1,con2,geom) < ccdist) then
-                pah%neighbornumber(con1)=pah%neighbornumber(con1)+1
-                pah%neighborlist(pah%neighbornumber(con1),con1)=con2
-                pah%neighbornumber(con2)=pah%neighbornumber(con2)+1
-                pah%neighborlist(pah%neighbornumber(con2),con2)=con1
-            end if
-        end do
-    end if
+    end do
+  else
+    nConnection = 0
+    read (20, *) nConnection
+    do i=1, nConnection
+        read (20,*) con1, con2
+        con1 = pah%initiallabel(con1)
+        con2 = pah%initiallabel(con2)
+        if (dist(cnat,con1,con2,geom) < ccdist) then
+            pah%neighbornumber(con1)=pah%neighbornumber(con1)+1
+            pah%neighborlist(pah%neighbornumber(con1),con1)=con2
+            pah%neighbornumber(con2)=pah%neighbornumber(con2)+1
+            pah%neighborlist(pah%neighbornumber(con2),con2)=con1
+        end if
+    end do
+  end if
     
-    close(20)
-  
+  close(20)
+
+
   if (.not. is_adjacencyfile) then
 ! ################################################
 ! # construct Schlegel diagram for the fullerene #
