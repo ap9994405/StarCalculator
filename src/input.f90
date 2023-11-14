@@ -129,7 +129,7 @@ subroutine read_input(input_fname,pah)
     end do
   end if
     
-  close(20)
+    close(20)
 
 
   if (.not. is_adjacencyfile) then
