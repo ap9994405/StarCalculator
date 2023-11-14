@@ -49,7 +49,12 @@ subroutine read_input(input_fname,pah)
         end do
       end if
     end do
-    if (.not. unsorted_geometry) call sort(geom,cnat)
+
+    allocate(pah%initiallabel(cnat))
+    do i=1,cnat
+      pah%initiallabel(i)=i
+    end do
+    if (.not. unsorted_geometry) call sort(geom,cnat,pah%initiallabel)
   end if ! is_adjacency_file
 
 ! ######################################
@@ -68,7 +73,6 @@ subroutine read_input(input_fname,pah)
 ! ######################
   pah%nat=cnat
   pah%order=0
-  allocate(pah%initiallabel(pah%nat))
   allocate(pah%neighbornumber(pah%nat))
   allocate(pah%neighborlist(3,pah%nat))
   pah%neighbornumber=0
@@ -118,6 +122,8 @@ subroutine read_input(input_fname,pah)
         read (20, *) nConnection
         do i=1, nConnection
             read (20,*) con1, con2
+            con1 = pah%initiallabel(con1)
+            con2 = pah%initiallabel(con2)
             if (dist(cnat,con1,con2,geom) < ccdist) then
                 pah%neighbornumber(con1)=pah%neighbornumber(con1)+1
                 pah%neighborlist(pah%neighbornumber(con1),con1)=con2
