@@ -5,10 +5,10 @@ subroutine sort(a,n,initiallabel)
   
   integer, intent(in) :: n
   real(kreal), intent(inout) :: a(3,n)
-  integer, intent(inout) :: initiallabel(n)
-  integer :: tmpinitiallabel(n)
   real(kreal) :: tmp(3),tmplabel
   integer :: i,j
+  integer, intent(inout) :: initiallabel(n)
+  integer :: tmpinitiallabel(n)
   
   do i=2,n
     tmp=a(:,i)
