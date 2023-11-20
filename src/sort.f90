@@ -32,5 +32,5 @@ subroutine sort(a,n,initiallabel)
       end if 
     end do
   end do
-  initiallabel = tmpinitiallabel 
+  initiallabel = tmpinitiallabel ! replace with the reverse map
 end subroutine
