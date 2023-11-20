@@ -134,7 +134,7 @@ The -u option makes ZZPolyCalc read the XYZ file without any modifications. By d
 
 The -v option enables additional diagnostics and progress printing.
 
-The -X option causes ZZPolyCalc to bypass the default generation of connectivity tables and instead read a connectivity table appended to the bottom of the XYZ file. This option sorts the structure by z, y and x. Subsequently, the program reads the connectivity table below the XYZ file, using a mapping technique to transform the order of each point to correspond to the sorted XYZ file. This feature ensures compatibility with ZZCalculator. The format of the connectivity tables is as follows:
+The -X option causes ZZPolyCalc to bypass the default generation of connectivity tables and instead read a connectivity table appended to the bottom of the XYZ file. Unless the '-u' option is also used, the atom order is determined by sorting the z, y, and x coordinates, and the connectivity list is then remapped to correspond to the sorted XYZ file. The '-u' option ensures compatibility with ZZCalculator but the default sorting is recommended. The format of the connectivity table is as follows:
 
   number_of_bonds
   `atom1` `atom2`
