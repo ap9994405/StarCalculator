@@ -148,7 +148,7 @@ subroutine read_options(input_fname)
 
         if(okey == 'X') then
             read_connection_table = .true.
-            unsorted_geometry = .true. ! connection table would not work if geometry is sorted
+            ! unsorted_geometry = .true. ! connection table could work with sorted geometry now
         end if
 
 
