@@ -335,6 +335,24 @@ function getpackedsize(a,n) result(m)
     end do
   end subroutine unpackvliarray2
 
+    subroutine destroypah(pah)
+        type(structure), intent(inout) :: pah
+        if (allocated(pah%neighbornumber)) then
+            deallocate(pah%neighbornumber)
+        end if
+        if (allocated(pah%neighborlist)) then
+            deallocate(pah%neighborlist)
+        end if
+        if (allocated(pah%initiallabel)) then
+            deallocate(pah%initiallabel)
+        end if
+        if (allocated(pah%polynomial)) then
+            deallocate(pah%polynomial)
+        end if
+        if (allocated(pah%bondlist)) then
+            deallocate(pah%bondlist)
+        end if
+    end subroutine
 
 
 end module types_module

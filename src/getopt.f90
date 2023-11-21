@@ -78,7 +78,7 @@ subroutine read_options(input_fname)
 
 
     do
-        okey = getopt('hac:f:m:pQr:s:uvw:X')
+        okey = getopt('hac:f:m:OpQr:s:uvw:X')
         if(okey == '>') exit
         if(okey == '!') then
             write(*,*) 'unknown option: ', trim(optarg)
@@ -115,6 +115,11 @@ subroutine read_options(input_fname)
         if(okey == 'm') then
             read(optarg, *) maxrecords
         end if
+
+        if(okey == 'O') then
+            calculate_bond_orders = .true.
+        end if
+
 
         if(okey == 'p') then
             print_bondlevel = .true.
@@ -178,6 +183,7 @@ subroutine print_usage()
     write(*, '(1x,10a)') "    ", "-f number", "         ",&  
                 "Sets the frequency of cache writes at {number} of million of structures. Requires -w"
     write(*, '(1x,10a)') "    ", "-m number", "         ",  "Sets the maximum {number} of structures in the cache database"
+!    write(*, '(1x,10a)') "    ", "-O", "                ",  "Calculates bond orders"
     write(*, '(1x,10a)') "    ", "-p", "                ",  "Prints intermediate bond-level structures"
     write(*, '(1x,10a)') "    ", "-Q", "                ",  "Print the ZZ polynomial in XML format"
     write(*, '(1x,10a)') "    ", "-r file", "           ",  "Reads cached structures from a {file}"

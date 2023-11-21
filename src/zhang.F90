@@ -71,6 +71,9 @@ end if
   else
     call print_ZZ_polynomial(pah)
   endif
+
+  if (calculate_bond_orders) call bond_orders(pah)
+
   if (verbose) write(*,'(a,3(1X,i0))')'Seen Unique Remembered',nstructseen,nstructall,nstruct
   notused=0
   if (allocated(xlen)) then

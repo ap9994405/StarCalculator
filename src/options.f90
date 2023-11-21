@@ -17,6 +17,7 @@ module options_module
   logical :: verbose
   logical :: unsorted_geometry
   logical :: read_connection_table
+  logical :: calculate_bond_orders
 contains
   subroutine initialize_options()
     chunksize = 1
@@ -32,6 +33,7 @@ contains
     has_read_cache_file = .false.
     has_write_cache_file = .false. 
     read_connection_table = .false. 
+    calculate_bond_orders = .false.
   end subroutine
   subroutine print_options()
     use types_module
@@ -44,6 +46,7 @@ contains
     if (is_adjacencyfile) write(*,*)'Input file is adjacency matrix'
     if (unsorted_geometry) write(*,*)'Unmodified geometry used' 
     if (read_connection_table) write(*,*)'Connection table read from the bottom of the xyz file'
+    if (calculate_bond_orders) write(*,*)'Bond orders will be calculated'
     write(*,'(A,1X,I0,1X,A)')'Will print cache status every',cacheprintmark,'steps'
   end subroutine print_options   
     

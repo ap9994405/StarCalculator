@@ -22,7 +22,7 @@ LDFLAGS := -static
 
 COMMON_FILES :=  hash_modules
 PREPROC_FILES := zhang
-ZHANG_FILES := types_module input functions daughters findZZ polynomial decompose operators print hexagon schlegel options getopt sort
+ZHANG_FILES := types_module input functions daughters findZZ polynomial decompose operators print hexagon schlegel options getopt sort orders
 C_FILES := md5
 
 COMMON_SRCS := $(addsuffix .F90, ${COMMON_FILES})
