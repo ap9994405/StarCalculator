@@ -13,6 +13,8 @@ use ISO_FORTRAN_ENV
   integer(int64), parameter :: vbase64 = vbase
   integer, parameter :: maxpolylength = 450+6+vlongmax*vbasedigits+10
 
+  real(kreal),allocatable,dimension(:,:) :: globalgeom
+
   type,public :: vlonginteger
     integer,public :: leadpow
     integer(kind=4),private :: tabl(vlongmax)

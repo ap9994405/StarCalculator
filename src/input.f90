@@ -12,7 +12,6 @@ subroutine read_input(input_fname,pah)
   integer(kint),allocatable,dimension(:,:) :: localbondlist
   character(len=200) :: atname
   real(kreal),parameter :: ccdist=1.7d0
-  real(kreal),allocatable,dimension(:,:) :: geom
   integer(kint),allocatable,dimension(:) :: map
   real(kreal),dimension(3) :: x
   real(kreal) :: dist
@@ -36,7 +35,7 @@ subroutine read_input(input_fname,pah)
     open(20,file=trim(input_fname),status='old')
     read(20,*)bnat
     read(20,*)
-    allocate(geom(3,bnat))
+    allocate(globalgeom(3,bnat))
     allocate(map(bnat))
     map=0
     do i=1,bnat
@@ -45,7 +44,7 @@ subroutine read_input(input_fname,pah)
         cnat=cnat+1
         map(i)=cnat
         do j=1,3
-         geom(j,cnat)=x(j)
+         globalgeom(j,cnat)=x(j)
         end do
       end if
     end do
@@ -54,7 +53,7 @@ subroutine read_input(input_fname,pah)
     do i=1,cnat
       pah%initiallabel(i)=i
     end do
-    if (.not. unsorted_geometry) call sort(geom,cnat,pah%initiallabel)
+    if (.not. unsorted_geometry) call sort(globalgeom,cnat,pah%initiallabel)
   end if ! is_adjacency_file
 
 ! ######################################
@@ -109,7 +108,7 @@ subroutine read_input(input_fname,pah)
       do i=1,cnat
         pah%initiallabel(i)=i
         do j=i+1,cnat
-          if (dist(cnat,i,j,geom) < ccdist) then
+          if (dist(cnat,i,j,globalgeom) < ccdist) then
             pah%neighbornumber(i)=pah%neighbornumber(i)+1
             pah%neighborlist(pah%neighbornumber(i),i)=j
             pah%neighbornumber(j)=pah%neighbornumber(j)+1
@@ -124,7 +123,7 @@ subroutine read_input(input_fname,pah)
             read (20,*) con1, con2
             con1 = pah%initiallabel(con1)
             con2 = pah%initiallabel(con2)
-            if (dist(cnat,con1,con2,geom) < ccdist) then
+            if (dist(cnat,con1,con2,globalgeom) < ccdist) then
                 pah%neighbornumber(con1)=pah%neighbornumber(con1)+1
                 pah%neighborlist(pah%neighbornumber(con1),con1)=con2
                 pah%neighbornumber(con2)=pah%neighbornumber(con2)+1
@@ -139,7 +138,7 @@ subroutine read_input(input_fname,pah)
 ! ################################################
 ! # construct Schlegel diagram for the fullerene #
 ! ################################################
-    call schlegel_diagram(pah%nat,pah,geom)
+    call schlegel_diagram(pah%nat,pah,globalgeom)
 
 ! ####################################################
 ! # read (if provided) the preferred partition order #
