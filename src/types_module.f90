@@ -58,6 +58,23 @@ contains
 
   end function setvli
 
+  function vli2real(a) result(c)   
+  implicit none
+  type(vlonginteger),intent(in) :: a
+  integer(kint) :: i
+  real(kreal) :: tmp
+  real(kreal) :: c
+
+  c=0.0_kreal
+  tmp=1.0_kreal
+  do i=1,a%leadpow
+    c=c+a%tabl(i)*tmp
+    tmp=tmp*vbase
+  end do
+
+  end function vli2real
+
+
 
   
 
@@ -353,6 +370,20 @@ function getpackedsize(a,n) result(m)
             deallocate(pah%bondlist)
         end if
     end subroutine
+
+function clartotal(pah) result(total)
+  implicit none
+  type(vlonginteger) :: total
+  type(structure), intent(in) :: pah
+  integer(kint) :: i
+
+  total=pah%polynomial(1)
+  do i=1,pah%order
+    total=addvli(total,pah%polynomial(i+1))
+  end do
+  return
+end function clartotal
+
 
 
 end module types_module
