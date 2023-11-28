@@ -1,5 +1,6 @@
 subroutine bond_orders(pah)
   use types_module
+  use options_module
   
   implicit none
   integer(kint) :: atom1,atom2,atom3,level,nelim,path
@@ -15,7 +16,12 @@ subroutine bond_orders(pah)
   clarpahreal=vli2real(clartotal(pah))
 
   write(*,'(X,A)')'Pi bond orders'
-  write(*,'(X,A5,X,A5,X,A8,X,A8,3X,A12)')'atom1', 'atom2','Kekule','Clar','Input_length'
+  if (.not. is_adjacencyfile) then
+    write(*,'(X,A5,X,A5,X,A8,X,A8,3X,A12)')'atom1', 'atom2','Kekule','Clar','Input_length'
+  else
+    write(*,'(X,A5,X,A5,X,A8,X,A8,3X,A12)')'atom1', 'atom2','Kekule','Clar'
+  end if
+
   do i=1,pah%nat
     do j=1,pah%neighbornumber(i)
 !    atom1 = pah%initiallabel(i)
@@ -44,13 +50,15 @@ subroutine bond_orders(pah)
 
         kekuledoubleratio=vli2real(kekuledouble)/kekulepahreal
         clardoubleratio=vli2real(clardouble)/clarpahreal
-        clarsingleratio=vli2real(clarsingle)/clarpahreal        
-        distance=dist(pah%nat,atom1,atom2,globalgeom)
-
-        write(*,'(X,I5,I5,2F10.4,F12.6)')atom1,atom2,kekuledoubleratio,&
+        clarsingleratio=vli2real(clarsingle)/clarpahreal
+        if (.not. is_adjacencyfile) then
+          distance=dist(pah%nat,atom1,atom2,globalgeom)
+          write(*,'(X,I5,I5,2F10.4,F12.6)')atom1,atom2,kekuledoubleratio,&
                         clardoubleratio + (1.0_kreal-clarsingleratio-clardoubleratio)*0.5_kreal,distance
-        
-
+        else
+          write(*,'(X,I5,I5,2F10.4)')atom1,atom2,kekuledoubleratio,&
+                        clardoubleratio + (1.0_kreal-clarsingleratio-clardoubleratio)*0.5_kreal 
+        end if
      end if
    end do
  end do
