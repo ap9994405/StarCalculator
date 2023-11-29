@@ -106,7 +106,6 @@ subroutine read_input(input_fname,pah)
 ! # find neighbor table #
 ! #######################
       do i=1,cnat
-        pah%initiallabel(i)=i
         do j=i+1,cnat
           if (dist(cnat,i,j,globalgeom) < ccdist) then
             pah%neighbornumber(i)=pah%neighbornumber(i)+1

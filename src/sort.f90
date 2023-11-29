@@ -1,3 +1,21 @@
+subroutine makereversemap(map,reversemap,n)
+  use types_module
+  implicit none
+  integer, intent(in) :: n
+  integer, intent(in) :: map(n)
+  integer, intent(out) :: reversemap(n)
+  integer :: i,j
+  do i=1,n
+    do j=1,n
+      if (map(j)==i) then
+        reversemap(i)=j
+        exit
+      end if 
+    end do
+  end do
+end subroutine makereversemap
+
+
 ! Simple insertion sort of an XYZ array
 subroutine sort(a,n,initiallabel)
   use types_module
@@ -24,13 +42,6 @@ subroutine sort(a,n,initiallabel)
     a(:,j+1)=tmp
     initiallabel(j+1)=tmplabel
   end do
-  do i=1,n
-    do j=1,n
-      if (initiallabel(j)==i) then
-        tmpinitiallabel(i)=j
-        exit
-      end if 
-    end do
-  end do
+  call makereversemap(initiallabel,tmpinitiallabel,n)
   initiallabel = tmpinitiallabel ! replace with the reverse map
 end subroutine

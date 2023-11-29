@@ -10,8 +10,14 @@ subroutine bond_orders(pah)
   type(vlonginteger) :: clarsingle,kekulesingle,clardouble,kekuledouble
   real(kreal) :: kekulepahreal,clarpahreal,kekuledoubleratio,clardoubleratio,clarsingleratio
   real(kreal) :: dist,distance
+  integer, allocatable :: pahoriginalmap(:)
   integer i,j
 
+  allocate(pahoriginalmap(pah%nat))
+
+! sort creates reverse label map in initiallabel. Now we have to reverse it again
+  call makereversemap(pah%initiallabel,pahoriginalmap,pah%nat)
+  
   kekulepahreal=vli2real(pah%polynomial(1))
   clarpahreal=vli2real(clartotal(pah))
 
@@ -24,15 +30,11 @@ subroutine bond_orders(pah)
 
   do i=1,pah%nat
     do j=1,pah%neighbornumber(i)
-!    atom1 = pah%initiallabel(i)
-!    atom2 = pah%initiallabel(pah%neighborlist(j,i) 
      atom1 = i
      atom2 = pah%neighborlist(j,i)
-     if (atom2 > atom1 ) then
-!       write(*,*)pah%initiallabel(i),pah%initiallabel(pah%neighborlist(j,i))
+     if (pahoriginalmap(atom2) > pahoriginalmap(atom1) ) then
         call create_nobond_daughter(pah,pahtmp,atom1,atom2)
         call find_ZZ_polynomial(pahtmp,0,0)
-!        call print_ZZ_polynomial(pahtmp)
         kekulesingle=pahtmp%polynomial(1)
         clarsingle=clartotal(pahtmp)
         call destroypah(pahtmp)
@@ -41,8 +43,7 @@ subroutine bond_orders(pah)
         atoms(2)=atom2
         call create_noatoms_daughter(pah,pahtmp,2,atoms)
         call find_ZZ_polynomial(pahtmp,0,0)
-!        call print_ZZ_polynomial(pahtmp)
-                
+
         kekuledouble=pahtmp%polynomial(1)
         clardouble=clartotal(pahtmp)
 
@@ -52,7 +53,13 @@ subroutine bond_orders(pah)
         clardoubleratio=vli2real(clardouble)/clarpahreal
         clarsingleratio=vli2real(clarsingle)/clarpahreal
         if (.not. is_adjacencyfile) then
+          
           distance=dist(pah%nat,atom1,atom2,globalgeom)
+! only labels have to be remapped to original labels. Distance is calculated from geometry that is reordered
+          atom1 = pahoriginalmap(i)
+          atom2 = pahoriginalmap(pah%neighborlist(j,i))
+          
+          
           write(*,'(X,I5,I5,2F10.4,F12.6)')atom1,atom2,kekuledoubleratio,&
                         clardoubleratio + (1.0_kreal-clarsingleratio-clardoubleratio)*0.5_kreal,distance
         else
@@ -63,5 +70,6 @@ subroutine bond_orders(pah)
    end do
  end do
 
+ deallocate(pahoriginalmap)
 
 end subroutine bond_orders
