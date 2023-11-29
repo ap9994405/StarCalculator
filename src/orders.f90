@@ -3,7 +3,7 @@ subroutine bond_orders(pah)
   use options_module
   
   implicit none
-  integer(kint) :: atom1,atom2,atom3,level,nelim,path
+  integer(kint) :: atom1,atom2
   integer(kint),dimension(2) :: atoms
   type(structure),intent(inout) :: pah
   type(structure) :: pahtmp
@@ -21,11 +21,11 @@ subroutine bond_orders(pah)
   kekulepahreal=vli2real(pah%polynomial(1))
   clarpahreal=vli2real(clartotal(pah))
 
-  write(*,'(X,A)')'Pi bond orders'
+  write(*,'(1X,A)')'Pi bond orders'
   if (.not. is_adjacencyfile) then
-    write(*,'(X,A5,X,A5,X,A8,X,A8,3X,A12)')'atom1', 'atom2','Kekule','Clar','Input_length'
+    write(*,'(1X,A5,1X,A5,1X,A8,1X,A8,3X,A12)')'atom1', 'atom2','Kekule','Clar','Input_length'
   else
-    write(*,'(X,A5,X,A5,X,A8,X,A8,3X,A12)')'atom1', 'atom2','Kekule','Clar'
+    write(*,'(1X,A5,1X,A5,1X,A8,1X,A8,3X,A12)')'atom1', 'atom2','Kekule','Clar'
   end if
 
   do i=1,pah%nat
@@ -60,10 +60,10 @@ subroutine bond_orders(pah)
           atom2 = pahoriginalmap(pah%neighborlist(j,i))
           
           
-          write(*,'(X,I5,I5,2F10.4,F12.6)')atom1,atom2,kekuledoubleratio,&
+          write(*,'(1X,I5,I5,2F10.4,F12.6)')atom1,atom2,kekuledoubleratio,&
                         clardoubleratio + (1.0_kreal-clarsingleratio-clardoubleratio)*0.5_kreal,distance
         else
-          write(*,'(X,I5,I5,2F10.4)')atom1,atom2,kekuledoubleratio,&
+          write(*,'(1X,I5,I5,2F10.4)')atom1,atom2,kekuledoubleratio,&
                         clardoubleratio + (1.0_kreal-clarsingleratio-clardoubleratio)*0.5_kreal 
         end if
      end if
