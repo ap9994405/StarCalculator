@@ -183,7 +183,7 @@ subroutine print_usage()
     write(*, '(1x,10a)') "    ", "-f number", "         ",&  
                 "Sets the frequency of cache writes at {number} of million of structures. Requires -w"
     write(*, '(1x,10a)') "    ", "-m number", "         ",  "Sets the maximum {number} of structures in the cache database"
-!    write(*, '(1x,10a)') "    ", "-O", "                ",  "Calculates bond orders"
+    write(*, '(1x,10a)') "    ", "-O", "                ",  "Calculates bond orders"
     write(*, '(1x,10a)') "    ", "-p", "                ",  "Prints intermediate bond-level structures"
     write(*, '(1x,10a)') "    ", "-Q", "                ",  "Print the ZZ polynomial in XML format"
     write(*, '(1x,10a)') "    ", "-r file", "           ",  "Reads cached structures from a {file}"
