@@ -15,10 +15,11 @@ if (NOT DEFINED FC)
 endif()
 
 
+cmake_minimum_required(VERSION 2.8.12..3.24.2)
+
 # Project name is not mandatory, but you should use it
 project(ZZPolyCalc Fortran C)
 
-cmake_minimum_required(VERSION 2.8.12..3.24.2)
 
 # The macro below forces the build directory to be different from source directory:
 #include(MacroOutOfSourceBuild)
