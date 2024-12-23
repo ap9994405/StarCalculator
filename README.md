@@ -2,7 +2,7 @@
 
 `StarPolyCalc` is a tool designed to compute the **Star Polynomial**, adapted from [`ZZPolyCalc`](https://github.com/solccp/zzcalculator). It inherits the core functionalities of `ZZPolyCalc` while introducing optimizations and extensions tailored for star-shaped molecular structures.
 
-Building on the foundation of `ZZPolyCalc`, `StarPolyCalc` focuses on efficiently analyzing and processing star patterns within molecular graphs.
+Building on the foundation of `ZZPolyCalc`, `StarPolyCalc` focuses on efficiently analyzing star patterns within molecular graphs.
 
 ## **Reference**
 Original tool: [`ZZPolyCalc`](https://github.com/quantumint/zzpolycalc)
