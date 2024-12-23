@@ -57,7 +57,7 @@ SRCS := ${COMMON_SRCS} ${PREPROC_SRCS} ${ZHANG_SRCS} ${C_SRCS}
 all: zhang
 
 .PHONY: zhang
-zhang: ${BINDIR}ZZPolyCalc
+zhang: ${BINDIR}StarPolyCalc
 
 .PHONY: clean
 clean:
@@ -70,7 +70,7 @@ mrproper: clean
 	rm -f ${SRCDIR}*~
 	rm -f *~
 
-${BINDIR}ZZPolyCalc: ${ZHANG_OBJS} ${PREPROC_OBJS} ${COMMON_OBJS} ${C_OBJS}
+${BINDIR}StarPolyCalc: ${ZHANG_OBJS} ${PREPROC_OBJS} ${COMMON_OBJS} ${C_OBJS}
 	@echo [LD] $@
 	@mkdir -p ${BINDIR}
 	@${FC} ${LDFLAGS} -o $@ $^ 
