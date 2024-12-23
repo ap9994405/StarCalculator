@@ -5,7 +5,7 @@
 Building on the foundation of `ZZPolyCalc`, `StarPolyCalc` focuses on efficiently analyzing and processing star patterns within molecular graphs.
 
 ## **Reference**
-Original tool: [`ZZPolyCalc`](https://github.com/solccp/zzcalculator)
+Original tool: [`ZZPolyCalc`](https://github.com/quantumint/zzpolycalc)
 
 Installation Requirements
 =========================
